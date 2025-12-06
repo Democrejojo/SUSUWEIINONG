@@ -3,222 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>หลักสูตรการเตรียมชิ้นงานตัวอย่าง</title>
+    <title>Good Night Venus</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Mali:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+        body {
+            font-family: 'Kanit', sans-serif;
+            overflow: hidden;
+        }
+        .font-hand {
+            font-family: 'Mali', cursive;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1.2); box-shadow: 0 0 10px white; }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        .moon-glow {
+            box-shadow: 0 0 60px 20px rgba(255, 255, 230, 0.3);
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .shooting-star {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
+            animation: shoot 3s linear infinite;
+            opacity: 0;
+        }
+        @keyframes shoot {
+            0% { transform: rotate(315deg) translateX(0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: rotate(315deg) translateX(-1000px); opacity: 0; }
+        }
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-slate-800">
+<body class="bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900 h-screen w-screen flex flex-col items-center justify-center relative text-white">
 
-    <!-- Header Section -->
-    <header class="gradient-bg text-white py-12 px-4 shadow-lg">
-        <div class="max-w-5xl mx-auto text-center">
-            <div class="inline-block px-3 py-1 bg-blue-500 bg-opacity-30 rounded-full text-sm font-medium mb-4 border border-blue-300">
-                หลักสูตรอบรมเชิงปฏิบัติการ
-            </div>
-            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">
-                เทคนิคการเตรียมและจัดการชิ้นงานตัวอย่าง<br>
-                <span class="text-blue-200">เพื่อการทดสอบทางห้องปฏิบัติการอย่างมืออาชีพ</span>
-            </h1>
-            <div class="mt-8 p-6 bg-white bg-opacity-10 rounded-xl backdrop-blur-sm border border-white/20 inline-block max-w-2xl">
-                <p class="text-xl font-semibold text-yellow-300 mb-2">"Garbage In, Garbage Out"</p>
-                <p class="text-blue-50 font-light">
-                    ผลการทดสอบจะแม่นยำที่สุด ก็ต่อเมื่อ "การเตรียมตัวอย่าง" ถูกต้องตั้งแต่เริ่มต้น
-                    <br>หากตัวอย่างไม่ดี ผลลัพธ์ย่อมเชื่อถือไม่ได้
-                </p>
+    <!-- Background Elements -->
+    <div id="stars-container" class="absolute inset-0 w-full h-full pointer-events-none z-0"></div>
+    
+    <!-- Shooting Star (Decorative) -->
+    <div class="shooting-star" style="top: 20%; left: 80%; animation-delay: 2s;"></div>
+    <div class="shooting-star" style="top: 10%; left: 50%; animation-delay: 7s;"></div>
+
+    <!-- Main Content -->
+    <div class="z-10 flex flex-col items-center justify-center w-full max-w-md p-6">
+        
+        <!-- Moon -->
+        <div class="relative w-40 h-40 mb-8 float-animation cursor-pointer" onclick="toggleMoonMode()">
+            <div class="absolute inset-0 bg-yellow-100 rounded-full moon-glow opacity-90"></div>
+            <div class="absolute inset-0 bg-gradient-to-tr from-gray-200 to-yellow-50 rounded-full flex items-center justify-center overflow-hidden">
+                <!-- Crater details -->
+                <div class="absolute top-6 left-8 w-6 h-6 bg-gray-300 rounded-full opacity-50"></div>
+                <div class="absolute bottom-8 right-10 w-10 h-10 bg-gray-300 rounded-full opacity-50"></div>
+                <div class="absolute top-16 right-6 w-4 h-4 bg-gray-300 rounded-full opacity-50"></div>
+                
+                <!-- Sleeping Face -->
+                <div class="text-6xl select-none transform translate-y-2">😴</div>
             </div>
         </div>
-    </header>
 
-    <!-- Key Information Grid -->
-    <div class="max-w-5xl mx-auto px-4 -mt-8 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <!-- Target Audience -->
-            <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-blue-500">
-                <div class="flex items-center mb-3 text-blue-600">
-                    <i data-lucide="users" class="w-6 h-6 mr-2"></i>
-                    <h3 class="font-bold text-lg">ใครควรเรียน?</h3>
-                </div>
-                <ul class="text-sm space-y-2 text-slate-600">
-                    <li>• นักวิจัย (R&D)</li>
-                    <li>• QC/QA เจ้าหน้าที่ควบคุมคุณภาพ</li>
-                    <li>• วิศวกรที่ประสานงานห้องแล็บ</li>
-                </ul>
+        <!-- Card -->
+        <div class="glass rounded-3xl p-8 w-full text-center shadow-2xl transition-all duration-500 transform hover:scale-105">
+            <h1 class="text-3xl font-bold mb-2 text-yellow-200 drop-shadow-md">Good Night</h1>
+            <h2 class="text-2xl font-hand mb-6 text-pink-200">Nong Venus 💖</h2>
+            
+            <div id="message-area" class="min-h-[120px] flex items-center justify-center">
+                <p id="night-msg" class="text-lg leading-relaxed text-gray-100 font-light animate-pulse">
+                    กดปุ่มด้านล่างเพื่อรับฝันดีนะ...
+                </p>
             </div>
-            <!-- Duration -->
-            <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-teal-500">
-                <div class="flex items-center mb-3 text-teal-600">
-                    <i data-lucide="clock" class="w-6 h-6 mr-2"></i>
-                    <h3 class="font-bold text-lg">ระยะเวลา</h3>
-                </div>
-                <p class="text-2xl font-bold text-slate-700">2 วัน</p>
-                <p class="text-sm text-slate-500">ทฤษฎี 1 วัน / ปฏิบัติ 1 วัน</p>
-            </div>
-            <!-- Goal -->
-            <div class="bg-white p-6 rounded-xl shadow-md border-b-4 border-indigo-500">
-                <div class="flex items-center mb-3 text-indigo-600">
-                    <i data-lucide="target" class="w-6 h-6 mr-2"></i>
-                    <h3 class="font-bold text-lg">สิ่งที่ได้รับ</h3>
-                </div>
-                <ul class="text-sm space-y-2 text-slate-600">
-                    <li>• ทักษะการเตรียมผิว/ลดขนาด</li>
-                    <li>• ความเข้าใจมาตรฐาน (ASTM, ISO)</li>
-                    <li>• การเขียน Chain of Custody</li>
-                </ul>
-            </div>
+
+            <button onclick="generateMessage()" class="mt-6 group relative inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-white transition-all duration-200 bg-indigo-600 font-hand rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg hover:shadow-indigo-500/50 w-full">
+                <span>บอกฝันดีหน่อย 🌙</span>
+                <div class="absolute inset-0 rounded-full ring-2 ring-white/20 group-hover:ring-white/40 animate-pulse"></div>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-sm text-gray-400 font-light flex flex-col items-center gap-1">
+            <p>ส่งตรงจากความห่วงใยถึงดาวศุกร์</p>
+            <p class="text-xs opacity-50">Auto-sent with ❤️</p>
         </div>
     </div>
 
-    <!-- The 3 Phases Framework (Core Knowledge) -->
-    <section class="max-w-5xl mx-auto px-4 py-16">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-slate-800">3 หัวใจหลักของการเตรียมตัวอย่าง</h2>
-            <p class="text-slate-500 mt-2">The Sample Preparation Cycle</p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Phase 1 -->
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
-                <div class="relative bg-white p-8 rounded-2xl shadow-lg h-full">
-                    <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mb-6 font-bold text-xl">1</div>
-                    <h3 class="text-xl font-bold mb-4 text-slate-800">Assessment & Selection<br><span class="text-sm font-normal text-slate-500">การประเมินและเลือกวิธี</span></h3>
-                    <ul class="space-y-3 text-sm text-slate-600">
-                        <li class="flex items-start"><i data-lucide="check-circle" class="w-4 h-4 mr-2 mt-1 text-pink-500"></i><span><b>Define Objective:</b> ต้องการค่าอะไร? เอาไปทำอะไร?</span></li>
-                        <li class="flex items-start"><i data-lucide="check-circle" class="w-4 h-4 mr-2 mt-1 text-pink-500"></i><span><b>Select Standard:</b> ISO, ASTM, JIS ระบุขนาด/รูปร่างอย่างไร</span></li>
-                        <li class="flex items-start"><i data-lucide="check-circle" class="w-4 h-4 mr-2 mt-1 text-pink-500"></i><span><b>Check Instrument:</b> เครื่องมือรับขนาดได้แค่ไหน?</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Phase 2 -->
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
-                <div class="relative bg-white p-8 rounded-2xl shadow-lg h-full">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-6 font-bold text-xl">2</div>
-                    <h3 class="text-xl font-bold mb-4 text-slate-800">Material Preparation<br><span class="text-sm font-normal text-slate-500">การเตรียมวัสดุ</span></h3>
-                    <ul class="space-y-3 text-sm text-slate-600">
-                        <li class="flex items-start"><i data-lucide="hammer" class="w-4 h-4 mr-2 mt-1 text-blue-500"></i><span><b>Representative:</b> ต้องเป็นตัวแทน Lot (เตรียมเผื่อ 2-3 เท่า)</span></li>
-                        <li class="flex items-start"><i data-lucide="scissors" class="w-4 h-4 mr-2 mt-1 text-blue-500"></i><span><b>Sizing:</b> ตัด/กลึง/บด ตาม Drawing (ระวังความร้อนสะสม)</span></li>
-                        <li class="flex items-start"><i data-lucide="droplets" class="w-4 h-4 mr-2 mt-1 text-blue-500"></i><span><b>Conditioning:</b> ควบคุมอุณหภูมิ/ความชื้น 24-48 ชม. ก่อนทดสอบ</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Phase 3 -->
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
-                <div class="relative bg-white p-8 rounded-2xl shadow-lg h-full">
-                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6 font-bold text-xl">3</div>
-                    <h3 class="text-xl font-bold mb-4 text-slate-800">Measurement & Testing<br><span class="text-sm font-normal text-slate-500">การวัดและทดสอบ</span></h3>
-                    <ul class="space-y-3 text-sm text-slate-600">
-                        <li class="flex items-start"><i data-lucide="ruler" class="w-4 h-4 mr-2 mt-1 text-emerald-500"></i><span><b>Initial Measure:</b> วัดขนาดจริง (กว้างxยาวxหนา) อย่าใช้ค่าทฤษฎี</span></li>
-                        <li class="flex items-start"><i data-lucide="settings" class="w-4 h-4 mr-2 mt-1 text-emerald-500"></i><span><b>Alignment:</b> ติดตั้งชิ้นงานให้ตรงศูนย์ (Alignment)</span></li>
-                        <li class="flex items-start"><i data-lucide="activity" class="w-4 h-4 mr-2 mt-1 text-emerald-500"></i><span><b>Calibration:</b> Set Zero และเลือก Range ให้เหมาะสม</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Course Agenda (Timeline) -->
-    <section class="bg-slate-100 py-16">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-800">โครงสร้างหลักสูตร (Agenda)</h2>
-            
-            <div class="space-y-8">
-                <!-- Day 1 -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
-                    <div class="bg-blue-600 p-6 flex flex-col justify-center items-center text-white md:w-48 shrink-0">
-                        <span class="text-3xl font-bold">Day 1</span>
-                        <span class="text-blue-100">Theory</span>
-                    </div>
-                    <div class="p-6 flex-1">
-                        <h3 class="font-bold text-xl mb-4 text-blue-800 border-b pb-2">ภาคทฤษฎีและหลักการ</h3>
-                        <div class="space-y-4">
-                            <div class="flex gap-4">
-                                <span class="font-mono text-slate-400 text-sm whitespace-nowrap">09:00</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-700">ความสำคัญของการเตรียมตัวอย่าง</h4>
-                                    <p class="text-sm text-slate-500">Representative Sample & Garbage In, Garbage Out</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="font-mono text-slate-400 text-sm whitespace-nowrap">10:45</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-700">เจาะลึกมาตรฐาน (Standards)</h4>
-                                    <p class="text-sm text-slate-500">การอ่าน ASTM, ISO, JIS เพื่อกำหนด Specimen</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="font-mono text-slate-400 text-sm whitespace-nowrap">13:00</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-700">การเก็บรักษาและขนส่ง</h4>
-                                    <p class="text-sm text-slate-500">การควบคุมปัจจัยเสี่ยง (แสง, ความชื้น) และการเลือกภาชนะ</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Day 2 -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row">
-                    <div class="bg-teal-600 p-6 flex flex-col justify-center items-center text-white md:w-48 shrink-0">
-                        <span class="text-3xl font-bold">Day 2</span>
-                        <span class="text-teal-100">Workshop</span>
-                    </div>
-                    <div class="p-6 flex-1">
-                        <h3 class="font-bold text-xl mb-4 text-teal-800 border-b pb-2">ภาคปฏิบัติและกรณีศึกษา</h3>
-                        <div class="space-y-4">
-                            <div class="flex gap-4">
-                                <span class="font-mono text-slate-400 text-sm whitespace-nowrap">09:00</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-700">Workshop: Preparation & Packaging</h4>
-                                    <p class="text-sm text-slate-500">ฝึกเทคนิคการตัด/บด/ย่อย และการ Labeling</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="font-mono text-slate-400 text-sm whitespace-nowrap">13:00</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-700">การสื่อสารกับห้อง Lab</h4>
-                                    <p class="text-sm text-slate-500">เขียน Request Form อย่างไรให้ได้ผลลัพธ์ที่ต้องการ</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4">
-                                <span class="font-mono text-slate-400 text-sm whitespace-nowrap">14:45</span>
-                                <div>
-                                    <h4 class="font-bold text-slate-700">Troubleshooting & Case Studies</h4>
-                                    <p class="text-sm text-slate-500">วิเคราะห์สาเหตุที่ตัวอย่างถูก Reject</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer / Troubleshooting Hint -->
-    <footer class="bg-slate-800 text-white py-12">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h3 class="text-xl font-bold mb-4">ทำไมตัวอย่างถึงถูกปฏิเสธ (Rejected Samples)?</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-slate-300">
-                <div class="p-3 bg-slate-700 rounded-lg">ปริมาณไม่เพียงพอ</div>
-                <div class="p-3 bg-slate-700 rounded-lg">ภาชนะบรรจุแตก/รั่ว</div>
-                <div class="p-3 bg-slate-700 rounded-lg">ฉลากไม่ชัดเจน/หลุดหาย</div>
-                <div class="p-3 bg-slate-700 rounded-lg">ไม่ได้ควบคุมอุณหภูมิ</div>
-            </div>
-            <p class="mt-8 text-slate-500 text-xs">© 2024 Laboratory Training Course Material</p>
-        </div>
-    </footer>
+    <!-- Audio (Optional - Hidden) -->
+    <!-- Note: Browsers usually block autoplay. User interaction (click) is needed to start sound if you add it. -->
 
     <script>
-        lucide.createIcons();
+        // Star Generation
+        const starsContainer = document.getElementById('stars-container');
+        const starCount = 150;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // Random positions
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            // Random size
+            const size = Math.random() * 3 + 1;
+            
+            // Random animation duration and delay
+            const duration = Math.random() * 3 + 2; // 2-5s
+            const delay = Math.random() * 5;
+
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.setProperty('--duration', `${duration}s`);
+            star.style.setProperty('--delay', `${delay}s`);
+
+            starsContainer.appendChild(star);
+        }
+
+        // Messages Database
+        const messages = [
+            "ฝันดีนะน้องวีนัส พรุ่งนี้ขอให้เป็นวันที่สดใสเหมือนรอยยิ้มหนูเลย 🌟",
+            "คืนนี้พักผ่อนเยอะๆ นะครับคนเก่ง ถึงตัวจะไม่ได้อยู่ใกล้ แต่ส่งใจไปห่มผ้าให้แล้วนะ 🛌",
+            "ดวงดาวคืนนี้สวยเนอะ แต่ก็ยังสวยสู้วีนัสไม่ได้หรอก... ฝันหวานนะคร้าบ 🌙",
+            "เหนื่อยมาทั้งวันแล้ว ทิ้งความกังวลไว้ตรงนี้นะ หลับตานอนได้แล้ว ฝันดีครับ 💖",
+            "ขอให้ในฝันมีแต่เรื่องดีๆ นะ ตื่นมาจะได้แฮปปี้ รักนะครับ ฝันดีนะวีนัส 🧸",
+            "พระจันทร์ทำหน้าที่ส่องแสง ส่วนพี่ทำหน้าที่ส่งความคิดถึง ฝันดีนะต้าววีนัส 🚀",
+            "รีบนอนนะ เดี๋ยวขอบตาหมีแพนด้าถามหาไม่รู้ด้วยนะ! หยอกๆ ฝันดีครับ 🐼",
+            "รู้มั้ยว่าก่อนนอนพี่คิดถึงใคร? ... ก็คิดถึงวีนัสไง ฝันดีนะครับ จุ๊บๆ 😘",
+            "ห่มผ้าหนาๆ นะครับอากาศอาจจะเย็น แต่ความรักพี่อุ่นแน่นอน ฮิ้ววว ฝันดีครับ 🔥",
+            "สู้ๆ กับทุกเรื่องนะ เก่งที่สุดแล้วคนนี้ คืนนี้ชาร์จแบตให้เต็มที่นะ ฝันดีครับ 🔋"
+        ];
+
+        function generateMessage() {
+            const msgElement = document.getElementById('night-msg');
+            const btnText = document.querySelector('button span');
+            
+            // Fade out
+            msgElement.style.opacity = '0';
+            msgElement.classList.remove('animate-pulse');
+            
+            setTimeout(() => {
+                // Random select
+                const randomIndex = Math.floor(Math.random() * messages.length);
+                msgElement.innerText = messages[randomIndex];
+                
+                // Change button text slightly
+                const btnLabels = ["อ่านแล้วชื่นใจ 🥰", "ขออีกรอบซิ 💫", "ฝันดีนะคนเก่ง 💤"];
+                btnText.innerText = btnLabels[Math.floor(Math.random() * btnLabels.length)];
+
+                // Fade in
+                msgElement.style.transition = 'opacity 0.5s ease';
+                msgElement.style.opacity = '1';
+            }, 300);
+        }
+
+        // Moon interaction feature
+        function toggleMoonMode() {
+            const moonFace = document.querySelector('.moon-glow + div div.text-6xl');
+            if (moonFace.innerText === '😴') {
+                moonFace.innerText = '🌝';
+            } else {
+                moonFace.innerText = '😴';
+            }
+        }
     </script>
 </body>
 </html>
-
