@@ -3,195 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Good Night Venus</title>
+    <title>To Venus | คนเก่งของเค้า</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Mali:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
         }
-        .font-hand {
+        
+        .handwritten {
             font-family: 'Mali', cursive;
         }
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-            animation: twinkle var(--duration) ease-in-out infinite;
-            animation-delay: var(--delay);
-        }
-        @keyframes twinkle {
-            0% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 0.8; transform: scale(1.2); box-shadow: 0 0 10px white; }
-            100% { opacity: 0; transform: scale(0.5); }
-        }
-        .moon-glow {
-            box-shadow: 0 0 60px 20px rgba(255, 255, 230, 0.3);
-        }
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
+
+        /* Floating Animation */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
             100% { transform: translateY(0px); }
         }
-        .shooting-star {
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .floating { animation: float 6s ease-in-out infinite; }
+        .floating-delay { animation: float 7s ease-in-out infinite 1s; }
+        .spin-gear { animation: spin-slow 10s linear infinite; }
+        
+        .star {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 4px;
-            height: 4px;
-            background: #fff;
+            background: white;
             border-radius: 50%;
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
-            animation: shoot 3s linear infinite;
-            opacity: 0;
+            animation: twinkle 3s infinite ease-in-out;
         }
-        @keyframes shoot {
-            0% { transform: rotate(315deg) translateX(0); opacity: 1; }
-            70% { opacity: 1; }
-            100% { transform: rotate(315deg) translateX(-1000px); opacity: 0; }
-        }
-        /* Glassmorphism */
-        .glass {
+
+        .glass-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        /* Heart Particles */
+        .heart-particle {
+            position: fixed;
+            top: -10vh;
+            font-size: 1.5rem;
+            transform: translateY(0);
+            animation: fall 3s linear forwards;
+            z-index: 50;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
     </style>
 </head>
-<body class="bg-gradient-to-b from-slate-900 via-purple-900 to-slate-900 h-screen w-screen flex flex-col items-center justify-center relative text-white">
+<body class="min-h-screen text-white flex items-center justify-center relative">
 
-    <!-- Background Elements -->
-    <div id="stars-container" class="absolute inset-0 w-full h-full pointer-events-none z-0"></div>
-    
-    <!-- Shooting Star (Decorative) -->
-    <div class="shooting-star" style="top: 20%; left: 80%; animation-delay: 2s;"></div>
-    <div class="shooting-star" style="top: 10%; left: 50%; animation-delay: 7s;"></div>
+    <!-- Background Stars (Generated via JS) -->
+    <div id="stars-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+    <!-- Background Gears for Mechanical Engineering Vibe -->
+    <i class="fa-solid fa-gear text-white/5 text-9xl absolute top-10 left-[-50px] spin-gear z-0"></i>
+    <i class="fa-solid fa-gear text-white/5 text-8xl absolute bottom-20 right-[-30px] spin-gear z-0" style="animation-direction: reverse;"></i>
 
     <!-- Main Content -->
-    <div class="z-10 flex flex-col items-center justify-center w-full max-w-md p-6">
+    <div class="container mx-auto px-4 z-10 relative max-w-lg">
         
-        <!-- Moon -->
-        <div class="relative w-40 h-40 mb-8 float-animation cursor-pointer" onclick="toggleMoonMode()">
-            <div class="absolute inset-0 bg-yellow-100 rounded-full moon-glow opacity-90"></div>
-            <div class="absolute inset-0 bg-gradient-to-tr from-gray-200 to-yellow-50 rounded-full flex items-center justify-center overflow-hidden">
-                <!-- Crater details -->
-                <div class="absolute top-6 left-8 w-6 h-6 bg-gray-300 rounded-full opacity-50"></div>
-                <div class="absolute bottom-8 right-10 w-10 h-10 bg-gray-300 rounded-full opacity-50"></div>
-                <div class="absolute top-16 right-6 w-4 h-4 bg-gray-300 rounded-full opacity-50"></div>
-                
-                <!-- Sleeping Face -->
-                <div class="text-6xl select-none transform translate-y-2">😴</div>
+        <!-- Planet/Venus Graphic -->
+        <div class="flex justify-center mb-6 relative">
+            <div class="w-32 h-32 rounded-full bg-gradient-to-tr from-pink-400 to-purple-600 shadow-[0_0_40px_rgba(236,72,153,0.6)] flex items-center justify-center floating text-5xl relative z-10 border-4 border-white/20">
+                🪐
+            </div>
+            <!-- Satellite Orbiting -->
+            <div class="absolute w-48 h-48 border border-white/10 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-[spin_8s_linear_infinite]">
+                <div class="w-4 h-4 bg-blue-300 rounded-full absolute -top-2 left-1/2 shadow-[0_0_10px_#93C5FD]"></div>
             </div>
         </div>
 
-        <!-- Card -->
-        <div class="glass rounded-3xl p-8 w-full text-center shadow-2xl transition-all duration-500 transform hover:scale-105">
-            <h1 class="text-3xl font-bold mb-2 text-yellow-200 drop-shadow-md">Good Night</h1>
-            <h2 class="text-2xl font-hand mb-6 text-pink-200">Nong Venus 💖</h2>
+        <div class="glass-card rounded-3xl p-8 text-center space-y-6">
             
-            <div id="message-area" class="min-h-[120px] flex items-center justify-center">
-                <p id="night-msg" class="text-lg leading-relaxed text-gray-100 font-light animate-pulse">
-                    กดปุ่มด้านล่างเพื่อรับฝันดีนะ...
-                </p>
+            <!-- Header -->
+            <div>
+                <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 mb-2">
+                    ถึง น้องวีนัส 💖
+                </h1>
+                <p class="text-gray-300 text-sm tracking-widest uppercase">The Cutest & Smartest Girl</p>
             </div>
 
-            <button onclick="generateMessage()" class="mt-6 group relative inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-white transition-all duration-200 bg-indigo-600 font-hand rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg hover:shadow-indigo-500/50 w-full">
-                <span>บอกฝันดีหน่อย 🌙</span>
-                <div class="absolute inset-0 rounded-full ring-2 ring-white/20 group-hover:ring-white/40 animate-pulse"></div>
-            </button>
-        </div>
+            <!-- Profile Badge -->
+            <div class="flex flex-wrap justify-center gap-2">
+                <span class="px-3 py-1 rounded-full bg-pink-500/20 text-pink-200 text-xs border border-pink-500/30">
+                    <i class="fa-solid fa-ruler-vertical mr-1"></i> ตัวเล็กสเปคเลย
+                </span>
+                <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-200 text-xs border border-blue-500/30">
+                    <i class="fa-solid fa-gear mr-1"></i> ว่าที่ครูเครื่องกล
+                </span>
+                <span class="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-200 text-xs border border-yellow-500/30">
+                    <i class="fa-solid fa-crown mr-1"></i> ว่าที่เกียรตินิยม
+                </span>
+            </div>
 
-        <!-- Footer -->
-        <div class="mt-8 text-sm text-gray-400 font-light flex flex-col items-center gap-1">
-            <p>ส่งตรงจากความห่วงใยถึงดาวศุกร์</p>
-            <p class="text-xs opacity-50">Auto-sent with ❤️</p>
+            <!-- Typed Message -->
+            <div class="bg-black/20 rounded-xl p-4 min-h-[120px] flex items-center justify-center">
+                <p class="handwritten text-xl leading-relaxed text-pink-100" id="typing-text"></p>
+            </div>
+
+            <!-- Divider -->
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+            <!-- Encouragement Section -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white/5 p-3 rounded-lg hover:bg-white/10 transition duration-300">
+                    <div class="text-2xl mb-1">💪</div>
+                    <div class="text-xs text-gray-400">ความพยายาม</div>
+                    <div class="font-bold text-green-300">เต็ม 100%</div>
+                </div>
+                <div class="bg-white/5 p-3 rounded-lg hover:bg-white/10 transition duration-300">
+                    <div class="text-2xl mb-1">🧠</div>
+                    <div class="text-xs text-gray-400">ความเก่ง</div>
+                    <div class="font-bold text-yellow-300">ระดับจักรวาล</div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <button onclick="sendLove()" class="group relative w-full py-3 px-6 rounded-full bg-gradient-to-r from-pink-500 to-violet-600 text-white font-bold shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 transform hover:scale-105 transition-all duration-300 overflow-hidden">
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-heart group-hover:animate-bounce"></i> 
+                    รับกำลังใจตรงนี้
+                </span>
+                <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+            </button>
+
+            <p class="text-xs text-gray-400 mt-4">
+                ไม่ต้องกลัวเหงานะ... หันมาก็เจอเค้าแล้ว <i class="fa-solid fa-moon text-yellow-200"></i>
+            </p>
         </div>
     </div>
 
-    <!-- Audio (Optional - Hidden) -->
-    <!-- Note: Browsers usually block autoplay. User interaction (click) is needed to start sound if you add it. -->
+    <!-- Hidden Message Modal -->
+    <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center px-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="bg-white text-gray-800 rounded-2xl p-8 max-w-sm w-full relative z-10 transform scale-90 transition-transform duration-300" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="text-center">
+                <div class="text-5xl mb-4 animate-bounce">💌</div>
+                <h3 class="text-2xl font-bold text-pink-600 mb-2 font-handwritten">คนเก่งของเค้า!</h3>
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                    เรียนเหนื่อยไหมครับ? อยากบอกว่าเธอเก่งมากๆ เลยนะ <br>
+                    ตั้งใจเรียนครุศาสตร์เครื่องกลแบบนี้ เท่สุดๆ ไปเลย! <br>
+                    พักผ่อนเยอะๆ นะครับคนดี
+                </p>
+                <div class="bg-pink-50 p-3 rounded-lg border border-pink-100">
+                    <p class="text-pink-500 font-bold text-sm">
+                        "เค้าภูมิใจในตัววีนัสที่สุดเลยนะ"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Star Generation
+        // Generate Stars Background
         const starsContainer = document.getElementById('stars-container');
-        const starCount = 150;
+        const starCount = 100;
 
         for (let i = 0; i < starCount; i++) {
             const star = document.createElement('div');
-            star.classList.add('star');
-            
-            // Random positions
-            const x = Math.random() * 100;
-            const y = Math.random() * 100;
-            
-            // Random size
-            const size = Math.random() * 3 + 1;
-            
-            // Random animation duration and delay
-            const duration = Math.random() * 3 + 2; // 2-5s
-            const delay = Math.random() * 5;
-
-            star.style.left = `${x}%`;
-            star.style.top = `${y}%`;
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            star.style.setProperty('--duration', `${duration}s`);
-            star.style.setProperty('--delay', `${delay}s`);
-
+            star.className = 'star';
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.width = `${Math.random() * 3}px`;
+            star.style.height = star.style.width;
+            star.style.animationDelay = `${Math.random() * 3}s`;
             starsContainer.appendChild(star);
         }
 
-        // Messages Database
-        const messages = [
-            "ฝันดีนะน้องวีนัส พรุ่งนี้ขอให้เป็นวันที่สดใสเหมือนรอยยิ้มหนูเลย 🌟",
-            "คืนนี้พักผ่อนเยอะๆ นะครับคนเก่ง ถึงตัวจะไม่ได้อยู่ใกล้ แต่ส่งใจไปห่มผ้าให้แล้วนะ 🛌",
-            "ดวงดาวคืนนี้สวยเนอะ แต่ก็ยังสวยสู้วีนัสไม่ได้หรอก... ฝันหวานนะคร้าบ 🌙",
-            "เหนื่อยมาทั้งวันแล้ว ทิ้งความกังวลไว้ตรงนี้นะ หลับตานอนได้แล้ว ฝันดีครับ 💖",
-            "ขอให้ในฝันมีแต่เรื่องดีๆ นะ ตื่นมาจะได้แฮปปี้ รักนะครับ ฝันดีนะวีนัส 🧸",
-            "พระจันทร์ทำหน้าที่ส่องแสง ส่วนพี่ทำหน้าที่ส่งความคิดถึง ฝันดีนะต้าววีนัส 🚀",
-            "รีบนอนนะ เดี๋ยวขอบตาหมีแพนด้าถามหาไม่รู้ด้วยนะ! หยอกๆ ฝันดีครับ 🐼",
-            "รู้มั้ยว่าก่อนนอนพี่คิดถึงใคร? ... ก็คิดถึงวีนัสไง ฝันดีนะครับ จุ๊บๆ 😘",
-            "ห่มผ้าหนาๆ นะครับอากาศอาจจะเย็น แต่ความรักพี่อุ่นแน่นอน ฮิ้ววว ฝันดีครับ 🔥",
-            "สู้ๆ กับทุกเรื่องนะ เก่งที่สุดแล้วคนนี้ คืนนี้ชาร์จแบตให้เต็มที่นะ ฝันดีครับ 🔋"
-        ];
+        // Typing Effect
+        const textElement = document.getElementById('typing-text');
+        const textToType = "วีนัสคนเก่ง... รู้ตัวมั้ยว่าตัวเองน่ารักขนาดไหน? ถึงจะตัวเล็กแต่ความสามารถไม่เล็กเลยนะ!";
+        let charIndex = 0;
 
-        function generateMessage() {
-            const msgElement = document.getElementById('night-msg');
-            const btnText = document.querySelector('button span');
-            
-            // Fade out
-            msgElement.style.opacity = '0';
-            msgElement.classList.remove('animate-pulse');
-            
-            setTimeout(() => {
-                // Random select
-                const randomIndex = Math.floor(Math.random() * messages.length);
-                msgElement.innerText = messages[randomIndex];
-                
-                // Change button text slightly
-                const btnLabels = ["อ่านแล้วชื่นใจ 🥰", "ขออีกรอบซิ 💫", "ฝันดีนะคนเก่ง 💤"];
-                btnText.innerText = btnLabels[Math.floor(Math.random() * btnLabels.length)];
-
-                // Fade in
-                msgElement.style.transition = 'opacity 0.5s ease';
-                msgElement.style.opacity = '1';
-            }, 300);
+        function typeText() {
+            if (charIndex < textToType.length) {
+                textElement.innerHTML += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeText, 50);
+            } else {
+                textElement.classList.remove('typing-cursor');
+            }
         }
 
-        // Moon interaction feature
-        function toggleMoonMode() {
-            const moonFace = document.querySelector('.moon-glow + div div.text-6xl');
-            if (moonFace.innerText === '😴') {
-                moonFace.innerText = '🌝';
-            } else {
-                moonFace.innerText = '😴';
+        // Start typing after a short delay
+        setTimeout(() => {
+            textElement.classList.add('typing-cursor');
+            typeText();
+        }, 1000);
+
+        // Heart Explosion Logic
+        function sendLove() {
+            createHearts();
+            openModal();
+        }
+
+        function createHearts() {
+            const colors = ['#F472B6', '#C084FC', '#FB7185', '#E879F9'];
+            const icons = ['fa-heart', 'fa-star', 'fa-gear']; // Heart, Star, and Gear for Mech Eng
+
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('i');
+                const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+                
+                heart.className = `fa-solid ${randomIcon} heart-particle`;
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+                
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
             }
+        }
+
+        // Modal Logic
+        function openModal() {
+            const modal = document.getElementById('modal');
+            const content = document.getElementById('modal-content');
+            
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            content.classList.remove('scale-90');
+            content.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const content = document.getElementById('modal-content');
+            
+            modal.classList.add('pointer-events-none', 'opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-90');
         }
     </script>
 </body>
