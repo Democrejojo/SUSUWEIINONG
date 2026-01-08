@@ -3,270 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Venus | คนเก่งของเค้า</title>
+    <title>HBD เตงเตงที่รัก</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Mali:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
     <style>
         body {
-            font-family: 'Kanit', sans-serif;
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             overflow-x: hidden;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-        }
-        
-        .handwritten {
-            font-family: 'Mali', cursive;
+            touch-action: manipulation;
         }
 
-        /* Floating Animation */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .floating { animation: float 6s ease-in-out infinite; }
-        .floating-delay { animation: float 7s ease-in-out infinite 1s; }
-        .spin-gear { animation: spin-slow 10s linear infinite; }
-        
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite ease-in-out;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Heart Particles */
-        .heart-particle {
+        .heart-bg {
             position: fixed;
-            top: -10vh;
-            font-size: 1.5rem;
-            transform: translateY(0);
-            animation: fall 3s linear forwards;
-            z-index: 50;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
         }
 
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
+        .floating-heart {
+            position: absolute;
+            bottom: -100px;
+            color: rgba(255, 255, 255, 0.6);
+            animation: floatUp 15s linear infinite;
+            font-size: 24px;
         }
 
-        .typing-cursor::after {
-            content: '|';
-            animation: blink 1s step-start infinite;
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
         }
 
-        @keyframes blink {
-            50% { opacity: 0; }
+        .pulse-anim {
+            animation: pulse-heart 2s infinite;
         }
+
+        @keyframes pulse-heart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Cake Styles */
+        .cake-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        
+        .flame {
+            position: absolute;
+            background-color: orange;
+            width: 15px;
+            height: 35px;
+            border-radius: 10px 10px 4px 4px;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px gold, 0 0 20px yellow, 0 0 40px white;
+            animation: flicker 1s infinite alternate;
+            transform-origin: bottom center;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+
+        .flame.out {
+            opacity: 0;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) skewX(5deg) scaleY(1); }
+            50% { transform: translateX(-50%) skewX(-5deg) scaleY(1.1); }
+            100% { transform: translateX(-50%) skewX(2deg) scaleY(1); }
+        }
+
+        .candle {
+            position: absolute;
+            background: linear-gradient(to bottom, #fff, #ddd);
+            width: 12px;
+            height: 40px;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        /* Typing Effect */
+        .typewriter p {
+            overflow: hidden;
+            border-right: 2px solid transparent; 
+            white-space: pre-wrap;
+            margin: 0 auto;
+            animation: blink-caret .75s step-end infinite;
+        }
+
+        .hidden-page {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
-<body class="min-h-screen text-white flex items-center justify-center relative">
+<body class="text-gray-800 antialiased min-h-screen flex flex-col items-center justify-center">
 
-    <!-- Background Stars (Generated via JS) -->
-    <div id="stars-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+    <!-- Background Hearts -->
+    <div class="heart-bg" id="heartBg"></div>
 
-    <!-- Background Gears for Mechanical Engineering Vibe -->
-    <i class="fa-solid fa-gear text-white/5 text-9xl absolute top-10 left-[-50px] spin-gear z-0"></i>
-    <i class="fa-solid fa-gear text-white/5 text-8xl absolute bottom-20 right-[-30px] spin-gear z-0" style="animation-direction: reverse;"></i>
-
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 z-10 relative max-w-lg">
-        
-        <!-- Planet/Venus Graphic -->
-        <div class="flex justify-center mb-6 relative">
-            <div class="w-32 h-32 rounded-full bg-gradient-to-tr from-pink-400 to-purple-600 shadow-[0_0_40px_rgba(236,72,153,0.6)] flex items-center justify-center floating text-5xl relative z-10 border-4 border-white/20">
-                🪐
-            </div>
-            <!-- Satellite Orbiting -->
-            <div class="absolute w-48 h-48 border border-white/10 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-[spin_8s_linear_infinite]">
-                <div class="w-4 h-4 bg-blue-300 rounded-full absolute -top-2 left-1/2 shadow-[0_0_10px_#93C5FD]"></div>
-            </div>
-        </div>
-
-        <div class="glass-card rounded-3xl p-8 text-center space-y-6">
-            
-            <!-- Header -->
-            <div>
-                <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 mb-2">
-                    ถึง น้องวีนัส 💖
-                </h1>
-                <p class="text-gray-300 text-sm tracking-widest uppercase">The Cutest & Smartest Girl</p>
-            </div>
-
-            <!-- Profile Badge -->
-            <div class="flex flex-wrap justify-center gap-2">
-                <span class="px-3 py-1 rounded-full bg-pink-500/20 text-pink-200 text-xs border border-pink-500/30">
-                    <i class="fa-solid fa-ruler-vertical mr-1"></i> ตัวเล็กสเปคเลย
-                </span>
-                <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-200 text-xs border border-blue-500/30">
-                    <i class="fa-solid fa-gear mr-1"></i> ว่าที่ครูเครื่องกล
-                </span>
-                <span class="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-200 text-xs border border-yellow-500/30">
-                    <i class="fa-solid fa-crown mr-1"></i> ว่าที่เกียรตินิยม
-                </span>
-            </div>
-
-            <!-- Typed Message -->
-            <div class="bg-black/20 rounded-xl p-4 min-h-[120px] flex items-center justify-center">
-                <p class="handwritten text-xl leading-relaxed text-pink-100" id="typing-text"></p>
-            </div>
-
-            <!-- Divider -->
-            <div class="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-
-            <!-- Encouragement Section -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="bg-white/5 p-3 rounded-lg hover:bg-white/10 transition duration-300">
-                    <div class="text-2xl mb-1">💪</div>
-                    <div class="text-xs text-gray-400">ความพยายาม</div>
-                    <div class="font-bold text-green-300">เต็ม 100%</div>
-                </div>
-                <div class="bg-white/5 p-3 rounded-lg hover:bg-white/10 transition duration-300">
-                    <div class="text-2xl mb-1">🧠</div>
-                    <div class="text-xs text-gray-400">ความเก่ง</div>
-                    <div class="font-bold text-yellow-300">ระดับจักรวาล</div>
-                </div>
-            </div>
-
-            <!-- Action Button -->
-            <button onclick="sendLove()" class="group relative w-full py-3 px-6 rounded-full bg-gradient-to-r from-pink-500 to-violet-600 text-white font-bold shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 transform hover:scale-105 transition-all duration-300 overflow-hidden">
-                <span class="relative z-10 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-heart group-hover:animate-bounce"></i> 
-                    รับกำลังใจตรงนี้
-                </span>
-                <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+    <!-- Intro Screen (Envelope/Button) -->
+    <div id="introScreen" class="z-10 text-center p-6 w-full max-w-md">
+        <div class="bg-glass rounded-3xl p-8 shadow-2xl transform transition hover:scale-105 duration-300">
+            <div class="text-6xl mb-6 animate-bounce">💌</div>
+            <h1 class="text-2xl font-bold text-pink-600 mb-2">ถึง... ที่รัก</h1>
+            <p class="text-gray-500 mb-6">มีการ์ดวันเกิดส่งมาถึงเธอแน่ะ!</p>
+            <button onclick="openGift()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition active:scale-95 pulse-anim">
+                เปิดอ่านเลย
             </button>
-
-            <p class="text-xs text-gray-400 mt-4">
-                ไม่ต้องกลัวเหงานะ... หันมาก็เจอเค้าแล้ว <i class="fa-solid fa-moon text-yellow-200"></i>
-            </p>
         </div>
     </div>
 
-    <!-- Hidden Message Modal -->
-    <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center px-4 opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
-        <div class="bg-white text-gray-800 rounded-2xl p-8 max-w-sm w-full relative z-10 transform scale-90 transition-transform duration-300" id="modal-content">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            <div class="text-center">
-                <div class="text-5xl mb-4 animate-bounce">💌</div>
-                <h3 class="text-2xl font-bold text-pink-600 mb-2 font-handwritten">คนเก่งของเค้า!</h3>
-                <p class="text-gray-600 mb-4 leading-relaxed">
-                    เรียนเหนื่อยไหมครับ? อยากบอกว่าเธอเก่งมากๆ เลยนะ <br>
-                    ตั้งใจเรียนครุศาสตร์เครื่องกลแบบนี้ เท่สุดๆ ไปเลย! <br>
-                    พักผ่อนเยอะๆ นะครับคนดี
-                </p>
-                <div class="bg-pink-50 p-3 rounded-lg border border-pink-100">
-                    <p class="text-pink-500 font-bold text-sm">
-                        "เค้าภูมิใจในตัววีนัสที่สุดเลยนะ"
-                    </p>
+    <!-- Main Content (Hidden initially) -->
+    <div id="mainContent" class="hidden-page w-full max-w-md p-4 z-10 pb-20">
+        
+        <!-- Header -->
+        <div class="bg-glass rounded-3xl p-6 shadow-xl mb-6 text-center border-t-4 border-pink-400 fade-in" style="animation-delay: 0.1s;">
+            <div class="w-24 h-24 mx-auto bg-pink-100 rounded-full flex items-center justify-center mb-4 shadow-inner relative overflow-hidden">
+                 <!-- Sticker/Icon replacement for photo -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-14 h-14 text-pink-500">
+                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-pink-600 mb-1">Happy Birthday</h1>
+            <h2 class="text-xl text-purple-600 font-semibold">ที่รัก 💖</h2>
+            <div class="mt-3 inline-block bg-pink-100 text-pink-600 px-4 py-1 rounded-full text-sm font-bold shadow-sm">
+                Official 18 Years Old 🎉
+            </div>
+        </div>
+
+        <!-- Interactive Cake -->
+        <div class="bg-glass rounded-3xl p-8 shadow-xl mb-6 text-center fade-in relative" style="animation-delay: 0.3s;">
+            <p class="text-gray-600 text-sm mb-4">อธิษฐานแล้วกดที่เทียนเพื่อเป่านะ!</p>
+            <div class="cake-container" onclick="blowCandle()">
+                <!-- SVG Cake -->
+                <svg width="200" height="200" viewBox="0 0 200 200">
+                    <!-- Cake Base -->
+                    <path fill="#FBCFE8" d="M40 120 h120 v40 a10 10 0 0 1 -10 10 h-100 a10 10 0 0 1 -10 -10 v-40 z" stroke="#F472B6" stroke-width="2"/>
+                    <!-- Icing -->
+                    <path fill="#FDE68A" d="M38 120 c10 15 30 15 40 0 c10 15 30 15 40 0 c10 15 30 15 40 0 v-10 h-120 v10 z"/>
+                    <!-- Top -->
+                    <ellipse cx="100" cy="90" rx="60" ry="15" fill="#FBCFE8" stroke="#F472B6" stroke-width="2"/>
+                </svg>
+                <!-- Candle & Flame -->
+                <div class="candle"></div>
+                <div id="flame" class="flame"></div>
+            </div>
+            <p id="wishText" class="mt-4 text-pink-500 font-bold opacity-0 transition-opacity duration-500">เย้! สมหวังทุกประการเพี้ยง! ✨</p>
+        </div>
+
+        <!-- Wishes Card -->
+        <div class="bg-white/90 rounded-3xl p-6 shadow-xl relative overflow-hidden fade-in border border-pink-100" style="animation-delay: 0.5s;">
+            <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-pink-200 rounded-full blur-2xl opacity-50"></div>
+            <h3 class="text-lg font-bold text-gray-700 mb-4 border-b pb-2 border-pink-100">📝 ข้อความจากใจเค้า</h3>
+            
+            <div class="space-y-4 text-gray-600 leading-relaxed font-light">
+                <p>สุขสันต์วันเกิดนะเตงเตงที่รัก! 🎂</p>
+                <p>ปีนี้ 18 ขวบแล้วนะ โตเป็นสาวเต็มตัวแล้ว</p>
+                <p>ขอให้เธอเหนื่อยน้อยลงนะคนเก่ง</p>
+                <p>ขอให้มีแต่ความสุข ยิ้มเยอะๆ ในทุกๆ วัน</p>
+                <p>ไม่ว่าจะเป็นยังไง เทอเจออะไรมา เค้าจะคอยเป็นเเฟนอยู่ข้างเธอตลอดนะ เทอจะไม่รู้สึกโดดเดี่ยว เค้าจะเป็นกำลังใจให้เสมอ</p>
+                <p>ขอให้สุขภาพแข็งแรง สวยวันสวยคืน สมหวังในทุกเรื่องที่ตั้งใจ เรียนหรือทำงานก็ขอให้ราบรื่นนะครับ</p>
+                <p>อยู่กับเค้า มีความสุขกับเค้าไปนานๆ นะ</p>
+                <div class="mt-6 p-4 bg-pink-50 rounded-xl text-center border border-pink-200">
+                    <p class="text-lg text-pink-600 font-bold">"เค้ารักเธอมากๆ นะ"</p>
+                    <p class="text-sm text-pink-400">และจะรักตลอดไป ❤️</p>
                 </div>
             </div>
         </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-white/80 text-sm font-light fade-in" style="animation-delay: 0.7s;">
+            <p>Created with Love for You</p>
+            <p class="text-xs mt-1">Forever & Always</p>
+        </div>
+    </div>
+
+    <!-- Music Player Control (Simulated) -->
+    <div id="musicControl" class="fixed bottom-4 right-4 z-50 hidden">
+        <button onclick="toggleMusic()" class="bg-white/80 backdrop-blur p-3 rounded-full shadow-lg text-pink-500 hover:bg-white transition-all">
+            🎵
+        </button>
     </div>
 
     <script>
-        // Generate Stars Background
-        const starsContainer = document.getElementById('stars-container');
-        const starCount = 100;
-
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.width = `${Math.random() * 3}px`;
-            star.style.height = star.style.width;
-            star.style.animationDelay = `${Math.random() * 3}s`;
-            starsContainer.appendChild(star);
-        }
-
-        // Typing Effect
-        const textElement = document.getElementById('typing-text');
-        const textToType = "วีนัสคนเก่ง... รู้ตัวมั้ยว่าตัวเองน่ารักขนาดไหน? ถึงจะตัวเล็กแต่ความสามารถไม่เล็กเลยนะ!";
-        let charIndex = 0;
-
-        function typeText() {
-            if (charIndex < textToType.length) {
-                textElement.innerHTML += textToType.charAt(charIndex);
-                charIndex++;
-                setTimeout(typeText, 50);
-            } else {
-                textElement.classList.remove('typing-cursor');
-            }
-        }
-
-        // Start typing after a short delay
-        setTimeout(() => {
-            textElement.classList.add('typing-cursor');
-            typeText();
-        }, 1000);
-
-        // Heart Explosion Logic
-        function sendLove() {
-            createHearts();
-            openModal();
-        }
-
+        // Generate floating hearts background
         function createHearts() {
-            const colors = ['#F472B6', '#C084FC', '#FB7185', '#E879F9'];
-            const icons = ['fa-heart', 'fa-star', 'fa-gear']; // Heart, Star, and Gear for Mech Eng
-
-            for (let i = 0; i < 30; i++) {
-                const heart = document.createElement('i');
-                const randomIcon = icons[Math.floor(Math.random() * icons.length)];
-                
-                heart.className = `fa-solid ${randomIcon} heart-particle`;
-                heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-                heart.style.animationDuration = `${Math.random() * 2 + 2}s`;
-                heart.style.fontSize = `${Math.random() * 20 + 10}px`;
-                
-                document.body.appendChild(heart);
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 4000);
+            const container = document.getElementById('heartBg');
+            const hearts = ['❤️', '💖', '💕', '🌸', '✨'];
+            
+            for(let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(heart);
             }
         }
 
-        // Modal Logic
-        function openModal() {
-            const modal = document.getElementById('modal');
-            const content = document.getElementById('modal-content');
+        // Initialize Background
+        createHearts();
+
+        function openGift() {
+            const intro = document.getElementById('introScreen');
+            const main = document.getElementById('mainContent');
+            const musicBtn = document.getElementById('musicControl');
+
+            intro.style.transition = 'opacity 0.5s';
+            intro.style.opacity = '0';
             
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-            content.classList.remove('scale-90');
-            content.classList.add('scale-100');
+            setTimeout(() => {
+                intro.style.display = 'none';
+                main.style.display = 'block';
+                musicBtn.classList.remove('hidden');
+                
+                // Slight delay to allow display:block to apply before opacity transition
+                setTimeout(() => {
+                    main.style.opacity = '1';
+                    
+                    // Trigger Confetti
+                    triggerConfetti();
+                }, 50);
+            }, 500);
         }
 
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            const content = document.getElementById('modal-content');
-            
-            modal.classList.add('pointer-events-none', 'opacity-0');
-            content.classList.remove('scale-100');
-            content.classList.add('scale-90');
+        function triggerConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            var random = function(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 50 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
         }
+
+        let isCandleBlown = false;
+        function blowCandle() {
+            if (isCandleBlown) return;
+            
+            const flame = document.getElementById('flame');
+            const wishText = document.getElementById('wishText');
+            
+            flame.classList.add('out');
+            isCandleBlown = true;
+            
+            wishText.style.opacity = '1';
+            
+            // More confetti on blow
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Note: Real audio autoplay is blocked by browsers.
+        // This is a visual toggle placeholder. 
+        // To add real music, uncomment the audio object below and add an mp3 file.
+        /*
+        let audio = new Audio('your-song-url.mp3');
+        let isPlaying = false;
+        function toggleMusic() {
+            if(isPlaying) {
+                audio.pause();
+            } else {
+                audio.play();
+            }
+            isPlaying = !isPlaying;
+        }
+        */
+       function toggleMusic() {
+           // Visual feedback only for this demo
+           const btn = document.querySelector('#musicControl button');
+           btn.classList.toggle('animate-spin');
+           alert('ลองเปิดเพลงที่เตงชอบฟังไปด้วยนะ! (ฟีเจอร์นี้ต้องใส่ไฟล์เพลงเพิ่มจ้า)');
+       }
+
     </script>
 </body>
 </html>
