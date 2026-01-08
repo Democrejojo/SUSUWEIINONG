@@ -3,366 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy 18th Birthday My Love</title>
-    <!-- Tailwind CSS -->
+    <title>HBD เตงเตงที่รัก</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Babel -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Google Fonts: Mali for cute handwriting style -->
-    <link href="https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
     <style>
         body {
-            font-family: 'Mali', cursive;
-            background: linear-gradient(to bottom, #0f172a, #1e1b4b);
-            overflow: hidden;
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            overflow-x: hidden;
             touch-action: manipulation;
         }
 
-        /* Custom Animations */
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        @keyframes flicker {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(0.95); }
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
         }
 
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-flicker { animation: flicker 0.1s infinite alternate; }
-
-        .candle-flame {
-            width: 12px;
-            height: 24px;
-            background: linear-gradient(to bottom, #fefce8, #facc15, #f97316);
-            border-radius: 50% 50% 35% 35%;
-            box-shadow: 0 0 10px #fbbf24, 0 0 20px #f59e0b;
-            transform-origin: bottom center;
-        }
-
-        .smoke {
-            width: 8px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 10px;
+        .floating-heart {
             position: absolute;
-            bottom: 10px;
+            bottom: -100px;
+            color: rgba(255, 255, 255, 0.6);
+            animation: floatUp 15s linear infinite;
+            font-size: 24px;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        .pulse-anim {
+            animation: pulse-heart 2s infinite;
+        }
+
+        @keyframes pulse-heart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Cake Styles */
+        .cake-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        
+        .flame {
+            position: absolute;
+            background-color: orange;
+            width: 15px;
+            height: 35px;
+            border-radius: 10px 10px 4px 4px;
+            top: -40px;
             left: 50%;
             transform: translateX(-50%);
-            animation: smokeRise 1s forwards;
+            box-shadow: 0 0 10px gold, 0 0 20px yellow, 0 0 40px white;
+            animation: flicker 1s infinite alternate;
+            transform-origin: bottom center;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+
+        .flame.out {
             opacity: 0;
         }
 
-        @keyframes smokeRise {
-            0% { opacity: 0.8; bottom: 10px; transform: translateX(-50%) scale(1); }
-            100% { opacity: 0; bottom: 60px; transform: translateX(-60%) scale(2); }
+        @keyframes flicker {
+            0% { transform: translateX(-50%) skewX(5deg) scaleY(1); }
+            50% { transform: translateX(-50%) skewX(-5deg) scaleY(1.1); }
+            100% { transform: translateX(-50%) skewX(2deg) scaleY(1); }
         }
-        
-        /* Custom scrollbar for the letter */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1; 
+
+        .candle {
+            position: absolute;
+            background: linear-gradient(to bottom, #fff, #ddd);
+            width: 12px;
+            height: 40px;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             border-radius: 4px;
+            z-index: 10;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #888; 
-            border-radius: 4px;
+
+        /* Typing Effect */
+        .typewriter p {
+            overflow: hidden;
+            border-right: 2px solid transparent; 
+            white-space: pre-wrap;
+            margin: 0 auto;
+            animation: blink-caret .75s step-end infinite;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #555; 
+
+        .hidden-page {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
         }
+
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
-<body>
-    <div id="root"></div>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col items-center justify-center">
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+    <!-- Background Hearts -->
+    <div class="heart-bg" id="heartBg"></div>
 
-        // Fireworks Component
-        const Fireworks = () => {
-            const canvasRef = useRef(null);
+    <!-- Intro Screen (Envelope/Button) -->
+    <div id="introScreen" class="z-10 text-center p-6 w-full max-w-md">
+        <div class="bg-glass rounded-3xl p-8 shadow-2xl transform transition hover:scale-105 duration-300">
+            <div class="text-6xl mb-6 animate-bounce">💌</div>
+            <h1 class="text-2xl font-bold text-pink-600 mb-2">ถึง... ที่รัก</h1>
+            <p class="text-gray-500 mb-6">มีการ์ดวันเกิดส่งมาถึงเธอแน่ะ!</p>
+            <button onclick="openGift()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition active:scale-95 pulse-anim">
+                เปิดอ่านเลย
+            </button>
+        </div>
+    </div>
 
-            useEffect(() => {
-                const canvas = canvasRef.current;
-                const ctx = canvas.getContext('2d');
-                let animationFrameId;
-                let particles = [];
+    <!-- Main Content (Hidden initially) -->
+    <div id="mainContent" class="hidden-page w-full max-w-md p-4 z-10 pb-20">
+        
+        <!-- Header -->
+        <div class="bg-glass rounded-3xl p-6 shadow-xl mb-6 text-center border-t-4 border-pink-400 fade-in" style="animation-delay: 0.1s;">
+            <div class="w-24 h-24 mx-auto bg-pink-100 rounded-full flex items-center justify-center mb-4 shadow-inner relative overflow-hidden">
+                 <!-- Sticker/Icon replacement for photo -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-14 h-14 text-pink-500">
+                    <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-pink-600 mb-1">Happy Birthday</h1>
+            <h2 class="text-xl text-purple-600 font-semibold">ที่รัก 💖</h2>
+            <div class="mt-3 inline-block bg-pink-100 text-pink-600 px-4 py-1 rounded-full text-sm font-bold shadow-sm">
+                Official 18 Years Old 🎉
+            </div>
+        </div>
 
-                const resizeCanvas = () => {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                };
+        <!-- Interactive Cake -->
+        <div class="bg-glass rounded-3xl p-8 shadow-xl mb-6 text-center fade-in relative" style="animation-delay: 0.3s;">
+            <p class="text-gray-600 text-sm mb-4">อธิษฐานแล้วกดที่เทียนเพื่อเป่านะ!</p>
+            <div class="cake-container" onclick="blowCandle()">
+                <!-- SVG Cake -->
+                <svg width="200" height="200" viewBox="0 0 200 200">
+                    <!-- Cake Base -->
+                    <path fill="#FBCFE8" d="M40 120 h120 v40 a10 10 0 0 1 -10 10 h-100 a10 10 0 0 1 -10 -10 v-40 z" stroke="#F472B6" stroke-width="2"/>
+                    <!-- Icing -->
+                    <path fill="#FDE68A" d="M38 120 c10 15 30 15 40 0 c10 15 30 15 40 0 c10 15 30 15 40 0 v-10 h-120 v10 z"/>
+                    <!-- Top -->
+                    <ellipse cx="100" cy="90" rx="60" ry="15" fill="#FBCFE8" stroke="#F472B6" stroke-width="2"/>
+                </svg>
+                <!-- Candle & Flame -->
+                <div class="candle"></div>
+                <div id="flame" class="flame"></div>
+            </div>
+            <p id="wishText" class="mt-4 text-pink-500 font-bold opacity-0 transition-opacity duration-500">เย้! สมหวังทุกประการเพี้ยง! ✨</p>
+        </div>
 
-                window.addEventListener('resize', resizeCanvas);
-                resizeCanvas();
-
-                class Particle {
-                    constructor(x, y, color) {
-                        this.x = x;
-                        this.y = y;
-                        this.color = color;
-                        this.velocity = {
-                            x: (Math.random() - 0.5) * 4,
-                            y: (Math.random() - 0.5) * 4
-                        };
-                        this.alpha = 1;
-                        this.friction = 0.96;
-                    }
-
-                    draw() {
-                        ctx.globalAlpha = this.alpha;
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-                        ctx.fillStyle = this.color;
-                        ctx.fill();
-                    }
-
-                    update() {
-                        this.velocity.x *= this.friction;
-                        this.velocity.y *= this.friction;
-                        this.x += this.velocity.x;
-                        this.y += this.velocity.y;
-                        this.alpha -= 0.01;
-                    }
-                }
-
-                const createFirework = (x, y) => {
-                    const colors = ['#ff69b4', '#00ff7f', '#add8e6', '#ffd700', '#ff4500'];
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    for (let i = 0; i < 30; i++) {
-                        particles.push(new Particle(x, y, color));
-                    }
-                };
-
-                const animate = () => {
-                    ctx.fillStyle = 'rgba(15, 23, 42, 0.2)'; // Trail effect
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                    // Random fireworks
-                    if (Math.random() < 0.03) {
-                        createFirework(
-                            Math.random() * canvas.width,
-                            Math.random() * canvas.height * 0.7
-                        );
-                    }
-
-                    particles.forEach((particle, index) => {
-                        if (particle.alpha > 0) {
-                            particle.update();
-                            particle.draw();
-                        } else {
-                            particles.splice(index, 1);
-                        }
-                    });
-
-                    animationFrameId = requestAnimationFrame(animate);
-                };
-
-                animate();
-
-                return () => {
-                    window.removeEventListener('resize', resizeCanvas);
-                    cancelAnimationFrame(animationFrameId);
-                };
-            }, []);
-
-            return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full pointer-events-none z-0" />;
-        };
-
-        // Main App Component
-        const App = () => {
-            const [step, setStep] = useState(0); // 0: Intro, 1: Cake, 2: Letter
-            const [candles, setCandles] = useState([true, true, true]); // 3 candles for representation
-            const [showConfetti, setShowConfetti] = useState(false);
+        <!-- Wishes Card -->
+        <div class="bg-white/90 rounded-3xl p-6 shadow-xl relative overflow-hidden fade-in border border-pink-100" style="animation-delay: 0.5s;">
+            <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-pink-200 rounded-full blur-2xl opacity-50"></div>
+            <h3 class="text-lg font-bold text-gray-700 mb-4 border-b pb-2 border-pink-100">📝 ข้อความจากใจเค้า</h3>
             
-            // Files provided in prompt
-            const snoopyImg = "image_77f6e6.jpg"; // Using jpg for one
-            const greenmanImg = "image_77f72b.png"; // Using png for the other
+            <div class="space-y-4 text-gray-600 leading-relaxed font-light">
+                <p>สุขสันต์วันเกิดนะเตงเตงที่รัก! 🎂</p>
+                <p>ปีนี้ 18 ขวบแล้วนะ โตเป็นสาวเต็มตัวแล้ว</p>
+                <p>ขอให้เธอเหนื่อยน้อยลงนะคนเก่ง</p>
+                <p>ขอให้มีแต่ความสุข ยิ้มเยอะๆ ในทุกๆ วัน</p>
+                <p>ไม่ว่าจะเป็นยังไง เทอเจออะไรมา เค้าจะคอยเป็นเเฟนอยู่ข้างเธอตลอดนะ เทอจะไม่รู้สึกโดดเดี่ยว เค้าจะเป็นกำลังใจให้เสมอ</p>
+                <p>ขอให้สุขภาพแข็งแรง สวยวันสวยคืน สมหวังในทุกเรื่องที่ตั้งใจ เรียนหรือทำงานก็ขอให้ราบรื่นนะครับ</p>
+                <p>อยู่กับเค้า มีความสุขกับเค้าไปนานๆ นะ</p>
+                <div class="mt-6 p-4 bg-pink-50 rounded-xl text-center border border-pink-200">
+                    <p class="text-lg text-pink-600 font-bold">"เค้ารักเธอมากๆ นะ"</p>
+                    <p class="text-sm text-pink-400">และจะรักตลอดไป ❤️</p>
+                </div>
+            </div>
+        </div>
 
-            const handleBlowCandle = (index) => {
-                const newCandles = [...candles];
-                newCandles[index] = false;
-                setCandles(newCandles);
+        <!-- Footer -->
+        <div class="text-center mt-8 text-white/80 text-sm font-light fade-in" style="animation-delay: 0.7s;">
+            <p>Created with Love for You</p>
+            <p class="text-xs mt-1">Forever & Always</p>
+        </div>
+    </div>
+
+    <!-- Music Player Control (Simulated) -->
+    <div id="musicControl" class="fixed bottom-4 right-4 z-50 hidden">
+        <button onclick="toggleMusic()" class="bg-white/80 backdrop-blur p-3 rounded-full shadow-lg text-pink-500 hover:bg-white transition-all">
+            🎵
+        </button>
+    </div>
+
+    <script>
+        // Generate floating hearts background
+        function createHearts() {
+            const container = document.getElementById('heartBg');
+            const hearts = ['❤️', '💖', '💕', '🌸', '✨'];
+            
+            for(let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(heart);
+            }
+        }
+
+        // Initialize Background
+        createHearts();
+
+        function openGift() {
+            const intro = document.getElementById('introScreen');
+            const main = document.getElementById('mainContent');
+            const musicBtn = document.getElementById('musicControl');
+
+            intro.style.transition = 'opacity 0.5s';
+            intro.style.opacity = '0';
+            
+            setTimeout(() => {
+                intro.style.display = 'none';
+                main.style.display = 'block';
+                musicBtn.classList.remove('hidden');
                 
-                // If all candles blown
-                if (newCandles.every(c => !c)) {
-                    setTimeout(() => {
-                        setShowConfetti(true);
-                        setTimeout(() => setStep(2), 2000);
-                    }, 500);
-                }
-            };
-
-            // Sticker Component
-            const Sticker = ({ src, alt, className, rotation }) => (
-                <div className={`absolute ${className} transform ${rotation} p-2 bg-white shadow-lg rounded-lg animate-float transition-transform hover:scale-110 duration-300 z-20`}>
-                    <img src={src} alt={alt} className="w-20 h-20 md:w-28 md:h-28 object-cover rounded-md" 
-                         onError={(e) => {
-                             // Fallback if image fails to load or for preview
-                             e.target.style.display='none';
-                             e.target.parentElement.innerHTML = `<div class="w-20 h-20 md:w-28 md:h-28 flex items-center justify-center bg-gray-100 text-xs text-center">${alt}</div>`;
-                         }}
-                    />
-                </div>
-            );
-
-            return (
-                <div className="relative w-full h-screen flex items-center justify-center p-4">
-                    <Fireworks />
-
-                    {/* Stage 0: Intro */}
-                    {step === 0 && (
-                        <div className="relative z-10 text-center animate-fade-in">
-                            <Sticker src={snoopyImg} alt="Snoopy" className="-top-32 left-0 md:-left-20" rotation="-rotate-12" />
-                            <Sticker src={greenmanImg} alt="Green Man" className="-top-24 right-0 md:-right-20" rotation="rotate-12" />
-                            
-                            <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-md w-full border-4 border-pink-200">
-                                <h1 className="text-4xl font-bold text-pink-600 mb-4">Happy Birthday!</h1>
-                                <p className="text-xl text-slate-700 mb-2">สุขสันต์วันเกิดนะที่รัก</p>
-                                <p className="text-3xl font-bold text-indigo-600 mb-6">18 ขวบแล้วนะ!</p>
-                                <button 
-                                    onClick={() => setStep(1)}
-                                    className="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 py-3 rounded-full text-xl font-bold shadow-lg hover:shadow-xl transform transition hover:scale-105 active:scale-95 animate-bounce"
-                                >
-                                    🎁 เปิดของขวัญ 🎁
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Stage 1: The Cake */}
-                    {step === 1 && (
-                        <div className="relative z-10 flex flex-col items-center">
-                            <h2 className="text-2xl text-white mb-8 text-shadow-lg font-bold animate-pulse">
-                                {candles.some(c => c) ? "จิ้มที่เทียนเพื่อเป่าเค้กเลย! 🎂💨" : "เย้! เก่งมาก!"}
-                            </h2>
-                            
-                            {/* CSS Cake */}
-                            <div className="relative mt-10">
-                                {/* Cake Base */}
-                                <div className="w-64 h-32 bg-amber-100 rounded-lg relative flex items-center justify-center shadow-xl border-b-8 border-amber-200">
-                                    <div className="absolute top-0 w-full h-8 bg-pink-300 rounded-full transform -translate-y-1/2"></div> {/* Icing top */}
-                                    <div className="absolute -bottom-2 w-72 h-4 bg-slate-300 rounded-full opacity-50 blur-sm"></div> {/* Shadow */}
-                                    
-                                    {/* Decor */}
-                                    <div className="absolute top-0 left-4 w-4 h-8 bg-pink-400 rounded-b-full"></div>
-                                    <div className="absolute top-0 left-12 w-4 h-6 bg-pink-400 rounded-b-full"></div>
-                                    <div className="absolute top-0 left-20 w-4 h-9 bg-pink-400 rounded-b-full"></div>
-                                    <div className="absolute top-0 right-4 w-4 h-7 bg-pink-400 rounded-b-full"></div>
-                                    <div className="absolute top-0 right-16 w-4 h-5 bg-pink-400 rounded-b-full"></div>
-                                    
-                                    <div className="text-4xl font-bold text-pink-500 z-10">18</div>
-                                </div>
-
-                                {/* Candles */}
-                                <div className="absolute -top-16 w-full flex justify-center gap-8">
-                                    {candles.map((isLit, idx) => (
-                                        <div key={idx} 
-                                            className="relative flex flex-col items-center cursor-pointer transform hover:scale-110 transition"
-                                            onClick={() => handleBlowCandle(idx)}
-                                        >
-                                            {isLit ? (
-                                                <div className="candle-flame animate-flicker mb-1"></div>
-                                            ) : (
-                                                <div className="h-6 w-2 relative">
-                                                    <div className="smoke"></div>
-                                                </div>
-                                            )}
-                                            <div className="w-4 h-16 bg-gradient-to-b from-blue-300 to-blue-500 rounded-sm border border-blue-600"></div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Greenman hiding behind cake */}
-                             <img src={greenmanImg} alt="Green Man" className="absolute -bottom-10 -right-20 w-24 h-24 transform rotate-12 animate-float opacity-90" 
-                                onError={(e) => e.target.style.display='none'}
-                             />
-                        </div>
-                    )}
-
-                    {/* Stage 2: The Letter */}
-                    {step === 2 && (
-                        <div className="relative z-20 w-full max-w-2xl px-4 animate-slide-up">
-                            <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-2xl overflow-hidden border-2 border-pink-100">
-                                {/* Header */}
-                                <div className="bg-pink-100 p-4 flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <img src={snoopyImg} alt="Snoopy" className="w-10 h-10 rounded-full object-cover border-2 border-white" onError={(e) => e.target.style.display='none'} />
-                                        <span className="font-bold text-pink-600">ถึง ที่รักของเค้า ❤️</span>
-                                    </div>
-                                    <div className="text-pink-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" className="animate-pulse"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                    </div>
-                                </div>
-
-                                {/* Body */}
-                                <div className="p-6 md:p-8 overflow-y-auto max-h-[60vh] custom-scrollbar text-center space-y-4">
-                                    <div className="text-lg md:text-xl text-slate-700 leading-relaxed font-medium">
-                                        <p className="mb-4">สุขสันต์วันเกิดอายุครบ 18 ปีนะคนเก่ง! 🎉</p>
-                                        
-                                        <p>
-                                            อายุ 18 นี้ขอให้ที่รักเหนื่อยน้อยลง ทุกๆ วันมีแต่ความสุข 
-                                            อยู่กับเค้าไปนานๆ นะคะ
-                                        </p>
-                                        <p>
-                                            ถึงจะอยู่ไกลแต่อยากให้รู้ว่า ไม่ว่าเทอจะเจออะไร 
-                                            เค้าจะคอยอยู่เคียงข้างอยู่เสมอนะที่รัก 👫
-                                        </p>
-                                        <p className="font-bold text-pink-500">
-                                            เค้ารอเจอที่รักนะ...
-                                        </p>
-                                        <hr className="border-pink-200 my-4 w-1/2 mx-auto" />
-                                        <p>
-                                            เค้ารักเทอนะและจะรักตลอดไป <br/>
-                                            อยากจะกอดดด จุ้บๆ ให้หายคิดถึงไปเลยยย 😚💕
-                                        </p>
-                                    </div>
-
-                                    {/* Stickers inside card */}
-                                    <div className="flex justify-center gap-4 mt-6">
-                                        <img src={greenmanImg} alt="Green Man" className="w-16 h-16 animate-bounce" style={{animationDelay: '0.1s'}} onError={(e) => e.target.style.display='none'}/>
-                                        <img src={snoopyImg} alt="Snoopy" className="w-16 h-16 animate-bounce" style={{animationDelay: '0.2s'}} onError={(e) => e.target.style.display='none'}/>
-                                    </div>
-                                </div>
-
-                                {/* Footer */}
-                                <div className="bg-slate-50 p-4 text-center">
-                                    <button 
-                                        onClick={() => { setStep(0); setCandles([true, true, true]); }}
-                                        className="text-sm text-slate-400 hover:text-pink-500 transition underline"
-                                    >
-                                        อ่านใหม่อีกครั้ง
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                // Slight delay to allow display:block to apply before opacity transition
+                setTimeout(() => {
+                    main.style.opacity = '1';
                     
-                    {/* Confetti Overlay */}
-                    {showConfetti && step !== 2 && (
-                         <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center">
-                            {/* Simple CSS Confetti fallback visualization */}
-                            <div className="text-6xl animate-ping">🎉</div>
-                         </div>
-                    )}
-                </div>
-            );
-        };
+                    // Trigger Confetti
+                    triggerConfetti();
+                }, 50);
+            }, 500);
+        }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        function triggerConfetti() {
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            var random = function(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 50 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        let isCandleBlown = false;
+        function blowCandle() {
+            if (isCandleBlown) return;
+            
+            const flame = document.getElementById('flame');
+            const wishText = document.getElementById('wishText');
+            
+            flame.classList.add('out');
+            isCandleBlown = true;
+            
+            wishText.style.opacity = '1';
+            
+            // More confetti on blow
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Note: Real audio autoplay is blocked by browsers.
+        // This is a visual toggle placeholder. 
+        // To add real music, uncomment the audio object below and add an mp3 file.
+        /*
+        let audio = new Audio('your-song-url.mp3');
+        let isPlaying = false;
+        function toggleMusic() {
+            if(isPlaying) {
+                audio.pause();
+            } else {
+                audio.play();
+            }
+            isPlaying = !isPlaying;
+        }
+        */
+       function toggleMusic() {
+           // Visual feedback only for this demo
+           const btn = document.querySelector('#musicControl button');
+           btn.classList.toggle('animate-spin');
+           alert('ลองเปิดเพลงที่เตงชอบฟังไปด้วยนะ! (ฟีเจอร์นี้ต้องใส่ไฟล์เพลงเพิ่มจ้า)');
+       }
+
     </script>
 </body>
 </html>
